@@ -47,12 +47,14 @@ function showResults() {
 }
 
 function startQuiz() {
-    const table1 = parseInt(document.getElementById('table1').value);
-    const table2 = parseInt(document.getElementById('table2').value);
-    if (isNaN(table1) || isNaN(table2)) {
-        alert("Please enter valid times tables.");
+    const table1 = parseInt(prompt("Enter the first times table number (1-10):"));
+    const table2 = parseInt(prompt("Enter the second times table number (1-10):"));
+
+    if (isNaN(table1) || isNaN(table2) || table1 < 1 || table1 > 10 || table2 < 1 || table2 > 10) {
+        alert("Please enter valid numbers between 1 and 10.");
         return;
     }
+
     generateProblems(table1, table2);
     currentProblemIndex = 0;
     document.getElementById('startButton').style.display = 'none';
