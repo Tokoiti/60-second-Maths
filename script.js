@@ -1,31 +1,34 @@
 let problems = [];
 let currentProblemIndex = 0;
 
-function getRandomIntFromArray(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
+function generateMultiplicationProblem(num1, num2) {
+    return { num1, num2, answer: num1 * num2 };
 }
 
-function generateMultiplicationProblem() {
-    const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-    const numbers2 = [2, 5, 10];
-    const num1 = getRandomIntFromArray(numbers);
-    const num2 = getRandomIntFromArray(numbers);
-    return {num1, num2, answer: num1 * num2};
-}
-
-function generateProblems() {
-    problems = [];
-    for (let i = 0; i < 10; i++) {
-        problems.push(generateMultiplicationProblem());
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
+}
+
+function generateProblems(table1, table2) {
+    problems = [];
+    for (let i = 1; i <= 10; i++) {
+        problems.push(generateMultiplicationProblem(table1, i));
+        problems.push(generateMultiplicationProblem(table2, i));
+    }
+    shuffle(problems);
 }
 
 function showQuestion() {
     if (currentProblemIndex < problems.length) {
         const problem = problems[currentProblemIndex];
-        document.getElementById('question').textContent = `What is ${problem.num1} x ${problem.num2}?`;
+        document.getElementById('question').textContent =
+            `What is ${problem.num1} x ${problem.num2}?`;
         currentProblemIndex++;
-        setTimeout(showQuestion, 6000);
+        setTimeout(showQuestion, 4000);
     } else {
         showResults();
     }
@@ -33,9 +36,10 @@ function showQuestion() {
 
 function showResults() {
     const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '<h2>Quiz Results:</h2><ol>';
-    problems.forEach((problem, index) => {
-        resultsContainer.innerHTML += `<li>${problem.num1} x ${problem.num2} = ${problem.answer}</li>`;
+    resultsContainer.innerHTML = '<h2>Answers:</h2><ol>';
+    problems.forEach(problem => {
+        resultsContainer.innerHTML +=
+            `<li>${problem.num1} x ${problem.num2} = ${problem.answer}</li>`;
     });
     resultsContainer.innerHTML += '</ol>';
     document.getElementById('question').textContent = 'Quiz completed!';
@@ -43,13 +47,17 @@ function showResults() {
 }
 
 function startQuiz() {
-    generateProblems();
+    const table1 = parseInt(document.getElementById('table1').value);
+    const table2 = parseInt(document.getElementById('table2').value);
+    if (isNaN(table1) || isNaN(table2)) {
+        alert("Please enter valid times tables.");
+        return;
+    }
+    generateProblems(table1, table2);
     currentProblemIndex = 0;
     document.getElementById('startButton').style.display = 'none';
     document.getElementById('results').innerHTML = '';
     showQuestion();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('startButton').addEventListener('click', startQuiz);
-});
+document.getElementById('startButton').addEventListener('click', startQuiz);
