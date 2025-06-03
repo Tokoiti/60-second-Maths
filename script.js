@@ -47,6 +47,7 @@ function showResults() {
 }
 
 function startQuiz() {
+    debugger; // This triggers a breakpoint in the browser dev tools
     const table1 = parseInt(prompt("Enter the first times table number (1-10):"));
     const table2 = parseInt(prompt("Enter the second times table number (1-10):"));
 
