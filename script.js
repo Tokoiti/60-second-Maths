@@ -37,12 +37,17 @@ function showQuestion() {
 
 function showResults() {
     const resultsContainer = document.getElementById('results');
-    resultsContainer.innerHTML = '<h2>Answers:</h2><ol>';
+    resultsContainer.innerHTML = '<h2>Answers:</h2>';
+
+    const ol = document.createElement('ol');
+
     problems.forEach(problem => {
-        resultsContainer.innerHTML +=
-            `<li>${problem.num1} x ${problem.num2} = ${problem.answer}</li>`;
+        const li = document.createElement('li');
+        li.textContent = `${problem.num1} x ${problem.num2} = ${problem.answer}`;
+        ol.appendChild(li);
     });
-    resultsContainer.innerHTML += '</ol>';
+
+    resultsContainer.appendChild(ol);
     document.getElementById('question').textContent = 'Quiz completed!';
     document.getElementById('startButton').style.display = 'block';
 }
