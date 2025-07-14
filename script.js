@@ -25,8 +25,9 @@ function generateProblems(table1, table2) {
 function showQuestion() {
     if (currentProblemIndex < problems.length) {
         const problem = problems[currentProblemIndex];
+        const questionNumber = currentProblemIndex + 1;
         document.getElementById('question').textContent =
-            `What is ${problem.num1} x ${problem.num2}?`;
+            `${questionNumber}. What is ${problem.num1} x ${problem.num2}?`;
         currentProblemIndex++;
         setTimeout(showQuestion, 4000);
     } else {
